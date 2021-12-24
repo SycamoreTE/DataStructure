@@ -304,6 +304,17 @@ int CountDNodes(BiTree T){
     return count;
 }
 
+/**9 交换所有左右子树**/
+void SwapTree(BiTree T){
+    if(T){
+        BiTNode *p = T->lchild;
+        T->lchild = T->rchild;
+        T->rchild = p;
+        SwapTree(T->lchild);
+        SwapTree(T->rchild);
+    }
+}
+
 void CreateTree(BiTree *T){
     ElemType data;
     printf("please input root node : ");
@@ -370,6 +381,9 @@ int main(){
     }
 
     printf("\n double nodes : %d", CountDNodes(tree));
+
+    SwapTree(tree);
+    InOrder(tree);
     // ThreadTree T1;
     // CreateThreadTree(&T1);
     // CreateInThread(T1);
