@@ -1,0 +1,12 @@
+[
+{
+  "directory": "D:/learning/WangDao-DataStructure-master/WangDao-DataStructure-master/build",
+  "command": "D:\\download\\MinGW64\\bin\\x86_64-w64-mingw32-g++.exe   -g -std=gnu++11 -o CMakeFiles\\one.dir\\字符串处理\\十进制转二进制.cpp.obj -c D:\\learning\\WangDao-DataStructure-master\\WangDao-DataStructure-master\\字符串处理\\十进制转二进制.cpp",
+  "file": "D:/learning/WangDao-DataStructure-master/WangDao-DataStructure-master/字符串处理/十进制转二进制.cpp"
+},
+{
+  "directory": "D:/learning/WangDao-DataStructure-master/WangDao-DataStructure-master/build",
+  "command": "D:\\download\\MinGW64\\bin\\x86_64-w64-mingw32-g++.exe   -g -std=gnu++11 -o CMakeFiles\\one.dir\\常用算法数据结构\\堆.cpp.obj -c D:\\learning\\WangDao-DataStructure-master\\WangDao-DataStructure-master\\常用算法数据结构\\堆.cpp",
+  "file": "D:/learning/WangDao-DataStructure-master/WangDao-DataStructure-master/常用算法数据结构/堆.cpp"
+}
+]

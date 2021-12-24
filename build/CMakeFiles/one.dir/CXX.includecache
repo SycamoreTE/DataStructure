@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/learning/WangDao-DataStructure-master/WangDao-DataStructure-master/字符串处理/十进制转二进制.cpp
+
+D:/learning/WangDao-DataStructure-master/WangDao-DataStructure-master/常用算法数据结构/堆.cpp
+iostream
+-
+
