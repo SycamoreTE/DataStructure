@@ -235,8 +235,6 @@ int BtHeight2(BiTree T){
     }
 }
 
-//test
-
 /**6 由先序遍历序列和中序遍历序列，建立二叉树的二叉链表**/
 BiTree PreInCreate(int pre[], int in[], int l1, int h1, int l2, int h2){
     BiTNode *root = (BiTNode*)malloc(sizeof(BiTNode));
@@ -282,6 +280,28 @@ bool IsCompleteTree(BiTree T){
         }
     }
     return true;
+}
+
+/**8 计算给定二叉树的所有双分支结点个数**/
+int CountDNodes(BiTree T){
+    int count = 0;
+    SqQueue Q;
+    InitQueue(&Q);
+    BiTNode *p = T;
+    EnQueue(&Q, p);
+    while(!QueueEmpty(Q)){
+        DeQueue(&Q, &p);
+        if(p->lchild && p->rchild){
+            count++;
+        }
+        if(p->lchild){
+            EnQueue(&Q, p->lchild);
+        }
+        if(p->rchild){
+            EnQueue(&Q, p->rchild);
+        }
+    }
+    return count;
 }
 
 void CreateTree(BiTree *T){
@@ -348,6 +368,8 @@ int main(){
     }else{
         printf("\n is not a complete tree");
     }
+
+    printf("\n double nodes : %d", CountDNodes(tree));
     // ThreadTree T1;
     // CreateThreadTree(&T1);
     // CreateInThread(T1);
