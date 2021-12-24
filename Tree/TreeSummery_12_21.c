@@ -315,6 +315,30 @@ void SwapTree(BiTree T){
     }
 }
 
+/**10 求先序遍历中第k个结点的值**/
+int PreNode_k(BiTree T, int k){
+    SqStack S;
+    InitStack(&S);
+    int count = 0;
+    if(T){
+        BiTNode *p = T;
+        while(p || !StackEmpty(S)){
+            if(p){
+                Push(&S, p);
+                count++;
+                if(count == k){
+                    return p->data;
+                }
+                p = p->lchild;
+            }else{
+                Pop(&S, &p);
+                p = p->rchild;
+            }
+        }
+    }
+    return -MaxSize;
+}
+
 void CreateTree(BiTree *T){
     ElemType data;
     printf("please input root node : ");
@@ -383,7 +407,10 @@ int main(){
     printf("\n double nodes : %d", CountDNodes(tree));
 
     SwapTree(tree);
-    InOrder(tree);
+    printf("\n");
+    PreOrder(tree);
+
+    printf("PreOrder the 4th data : %d", PreNode_k(tree, 4));
     // ThreadTree T1;
     // CreateThreadTree(&T1);
     // CreateInThread(T1);
