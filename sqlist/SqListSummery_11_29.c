@@ -141,32 +141,28 @@ bool Reverse(SqList *L, int begin, int end){
 
 //在递增有序的线性表中查找数值为x的元素，找到与后继元素交换位置，未找到插入表中
 void Find_x(SqList *L, int x){
-    if(L->length == 0){
-        return;
-    }
-    //折半查找
-    int begin = 0, end = L->length - 1;
-    while(begin < end){
-        int mid = (begin + end)/2;
-        if(L->data[mid] == x){
-            int temp = x;
-            L->data[mid] = L->data[mid + 1];
-            L->data[mid + 1] = temp; 
-            break;
-        }else if(L->data[mid] < x){
-            begin = mid + 1;
+    int low = 0, high = L->length - 1, mid ;
+    while(low < high){
+        mid = (low + high)/2;
+        if(L->data[mid] < x){
+            low = mid + 1;
+        }else if(L->data[mid] > x){
+            high = mid - 1;
         }else{
-            end = mid - 1;
+            int temp = L->data[mid];
+            L->data[mid] = L->data[mid + 1];
+            L->data[mid + 1] = temp;
+            return;
         }
     }
-    if(begin >= end){
+    if(low >= high){
         L->length++;
-        for(int i = L->length-1; i > end + 1; i--){
+        for(int i = L->length - 1; i > high; i--){
             L->data[i] = L->data[i-1];
         }
-        L->data[end + 1] = x;
+        L->data[high] = x;
     }
-}
+}    
 
 //查找两个等长升序序列A和B的中位数
 int Find_Mid(SqList *A, SqList *B){
@@ -309,7 +305,7 @@ int main(){
         A.data[i] = i*2 + 1;
     }
     PrintSqList(&A);
-    Find_x(&A, 7);
+    Find_x(&A, 8);
     PrintSqList(&A);
 
     Reverse(&A, 0, 14);
