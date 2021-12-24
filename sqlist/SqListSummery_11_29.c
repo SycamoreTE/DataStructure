@@ -228,11 +228,10 @@ bool IsMin(int a, int b, int c){
 //三元组(a,b,c)的元素按升序分别存放在三个数组中，求所有可能的三元组中的最小距离
 //最小距离计算公式 S = |a - b| + |a - c| + |b - c|
 int Min_Distance(SqList A, SqList B, SqList C){
-    int a = 0, b = 0, c = 0;
     int i = 0, j = 0, k = 0;
-    int min = MAX_NUMBER, distance = 0;
+    int min = MAX_NUMBER, distance, a, b, c;
     while(i < A.length && j < B.length && k < C.length){
-        distance = abs(A.data[i] - B.data[j]) + abs(A.data[i] - C.data[k]) + abs(B.data[j] - C.data[k]);
+        int distance = abs(A.data[i] - B.data[j]) + abs(A.data[i] - C.data[k]) + abs(B.data[j] - C.data[k]);
         if(distance < min){
             min = distance;
             a = A.data[i];
@@ -245,11 +244,11 @@ int Min_Distance(SqList A, SqList B, SqList C){
             j++;
         }else{
             k++;
-        }
+        } 
     }
-    printf("(%d,%d,%d): %d", a, b, c, min);
+    printf("(%d,%d,%d)", a, b, c);
     return min;
-}                                              
+}                                            
 
 void PrintSqList(SqList *L){
     printf("\n");
@@ -344,7 +343,7 @@ int main(){
         min2.data[i] = i+8;
     }
     PrintSqList(&min2);
-    printf("SearchMin min2: %d",find_uint_min(&min2));
+    printf("SearchMin min2: %d\n",find_uint_min(&min2));
 
     SqList s1 = {0},s2 = {0}, s3 = {0};
     s1.length = 3;

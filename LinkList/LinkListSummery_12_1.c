@@ -265,25 +265,20 @@ LinkList DisCreate_C(LinkList A)
 }
 
 /** 12 在递增有序的线性表中，去除数值相同的元素，使表中元素不重复**/
-void Delete_Same(LinkList L)
-{
-    LNode *p = L->next, *q = p->next, *r;
-    L->next = NULL;
-    LNode *rl = L;
-    rl->next = p;
-    rl = p;
-    while (q)
-    {
-        r = q->next;
-        if (p->data != q->data)
-        {
-            rl->next = q;
-            rl = q;
+void Delete_Same(LinkList L){
+    LNode *pre = L->next, *p = pre->next, *r;
+    while(p){
+        r = p->next;
+        if(pre->data == p->data){
+            pre->next = p->next;
+            free(p);
+            p = r;
+        }else{
+            pre = p;
+            p = p->next;
         }
-        p = p->next;
-        q = r;
     }
-    rl->next = NULL;
+
 }
 
 /** 13 将两个升序的单链表合并为一个降序的单链表 **/
@@ -678,19 +673,19 @@ int main()
     // Print_LinkList(A);
     // Print_LinkList(B);
 
-    // LinkList sam = List_TailInsert();
-    // Print_LinkList(sam);
-    // Delete_Same(sam);
-    // Print_LinkList(sam);
+    LinkList sam = List_TailInsert();
+    Print_LinkList(sam);
+    Delete_Same(sam);
+    Print_LinkList(sam);
 
-    LinkList list1 = List_TailInsert();
-    Print_LinkList(list1);
-    LinkList list2 = List_TailInsert();
-    Print_LinkList(list2);
+    // LinkList list1 = List_TailInsert();
+    // Print_LinkList(list1);
+    // LinkList list2 = List_TailInsert();
+    // Print_LinkList(list2);
     // MergeDescendList(list1, list2);
     // LinkList list3 = FindCommon(list1, list2);
-    printf("%d if is SonList\n", (IsSonList(list1, list2)? 1:0));
-    printf("%d if is SonList\n", (IsSonList2(list1, list2)? 1:0));
+    // printf("%d if is SonList\n", (IsSonList(list1, list2)? 1:0));
+    // printf("%d if is SonList\n", (IsSonList2(list1, list2)? 1:0));
     // // Print_LinkList(list1);
     // printf("\n%d", SearchTail_k(list1, 3));
     // printf("\nFirst common element :%d\n", FindCommon_first_element(list1,
