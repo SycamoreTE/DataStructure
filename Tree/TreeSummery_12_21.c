@@ -339,6 +339,121 @@ int PreNode_k(BiTree T, int k){
     return -MaxSize;
 }
 
+/**11 删去以x为根的子树，并释放相应的空间**/
+void Delete_Node(BiTNode *p){
+    if(p){
+        Delete_Node(p->lchild);
+        Delete_Node(p->rchild);
+        free(p);
+    }
+}
+
+void Delete_x(BiTree T, int x){
+    if(T->data == x){
+        Delete_Node(T);
+        return;
+    }
+    SqQueue Q;
+    InitQueue(&Q);
+    BiTNode *p = T;
+    EnQueue(&Q, p);
+    while(!QueueEmpty(Q)){
+        DeQueue(&Q, &p);
+        if(p->lchild){
+            if(p->lchild->data == x){
+                Delete_Node(p->lchild);
+                p->lchild = NULL;
+            }else{
+                EnQueue(&Q, p->lchild);
+            }
+        }
+        if(p->rchild){
+            if(p->rchild->data == x){
+                Delete_Node(p->rchild);
+                p->rchild = NULL;
+            }else{
+                EnQueue(&Q, p->rchild);
+            }
+        }
+    }
+}
+
+/**12 打印值为x的结点的所有祖先**/
+bool Ancestors(BiTree T, SqQueue *Q, ElemType x){
+    if(!T){
+        return false;
+    }
+    if(T->data == x){
+        return true;
+    }
+    if(Ancestors(T->lchild, Q, x) || Ancestors(T->rchild, Q, x)){
+        EnQueue(Q, T);
+        return true;
+    }
+    return false;
+}
+
+void findAncestors(BiTree T, int x){
+    SqQueue Q;
+    InitQueue(&Q);
+    Ancestors(T, &Q, x);
+    BiTNode *p;
+    while(!QueueEmpty(Q)){
+        DeQueue(&Q, &p);
+        visit(p);
+    }
+}
+
+/**13 试编写算法ANCESTOR(root,p,q,r),找到p和q的最近公共祖先结点r**/
+void ANCESTOR(BiTree T, int p, int q, int *r){
+    SqQueue Q1, Q2;
+    InitQueue(&Q1);
+    InitQueue(&Q2);
+    Ancestors(T, &Q1, p);
+    Ancestors(T, &Q2, q);
+    BiTNode *p1, *q1;
+    while(!QueueEmpty(Q1)){
+        DeQueue(&Q1, &p1);
+        while(!QueueEmpty(Q2)){
+            DeQueue(&Q2, &q1);
+            if(p1->data == q1->data){
+                *r = p1->data;
+                return;
+            }
+        }
+    }
+}
+
+/**14 求非空二叉树b的宽度，结点数最多那一层结点的个数**/
+static int count[MaxSize] = {0};
+static int MAX = 0;
+
+int BtWidth(BiTree T, int k, int *MAX){
+    if(T == NULL){
+        return *MAX;
+    }
+    count[k]++;
+    if(*MAX < count[k]){
+        *MAX = count[k];
+    }
+    BtWidth(T->lchild, k+1, MAX);
+    BtWidth(T->rchild, k+1, MAX);
+    return *MAX;
+}
+
+/**15 满二叉树，已知其先序序列，求其后序序列**/
+void PreToPost(int pre[], int post[], int l1, int h1, int l2, int h2){
+    if(h1 >= l1){
+        int length = (h1 - l1)/2;
+        post[h2] = pre[l1];
+        PreToPost(pre, post, l1+1, l1+length, l2, l2+length-1);
+        PreToPost(pre, post, l1+length+1, h1, l2+length, h2-1);
+    }
+}
+
+/**16 将二叉树的叶节点用单链表从左至右链接起来，右孩子节点链接下一个叶子节点**/
+
+
 void CreateTree(BiTree *T){
     ElemType data;
     printf("please input root node : ");
@@ -393,8 +508,20 @@ int main(){
     int pre[] = {1,2,4,5,6,3,7,8};
     int in[] = {4,2,6,5,1,7,3,8};
     BiTree b = PreInCreate(pre, in, 0, 7, 0, 7);
+    BtWidth(b, 0, &MAX);
+    printf("\nBtWidth: %d", MAX);
     printf("InOrder----\n");
     InOrder(b);
+    printf("\nfindAncestors----\n");
+    findAncestors(b, 7);
+    printf("\n");
+
+    int pre1[7] = {1,2,4,5,3,6,7};
+    int post[7] = {0};
+    PreToPost(pre1, post, 0, 6, 0, 6);
+    for(int i = 0; i < 7; i++){
+        printf("%d ->",post[i]);
+    }
 
     BiTree tree;
     CreateTree(&tree);
@@ -410,7 +537,9 @@ int main(){
     printf("\n");
     PreOrder(tree);
 
-    printf("PreOrder the 4th data : %d", PreNode_k(tree, 4));
+    printf("PreOrder the 4th data : %d\n", PreNode_k(tree, 4));
+    Delete_x(tree, 4);
+    PreOrder(tree);
     // ThreadTree T1;
     // CreateThreadTree(&T1);
     // CreateInThread(T1);
