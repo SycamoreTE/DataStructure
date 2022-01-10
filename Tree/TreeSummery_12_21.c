@@ -478,6 +478,19 @@ void printleafNode(BiTNode *p){
     }
 }
 
+/**17 判断两颗二叉树是否相似**/
+bool Similar(BiTree T1, BiTree T2){
+    if(T1 == NULL && T2 == NULL){
+        return true;
+    }else if(T1 == NULL || T2 == NULL){
+        return false;
+    }else{
+        bool left = Similar(T1->lchild, T2->lchild);
+        bool right = Similar(T1->rchild, T2->rchild);
+        return left&&right;
+    }
+}
+
 void CreateTree(BiTree *T){
     ElemType data;
     printf("please input root node : ");
@@ -564,6 +577,12 @@ int main(){
     printf("PreOrder the 4th data : %d\n", PreNode_k(tree, 4));
     Delete_x(tree, 4);
     PreOrder(tree);
+
+    if(Similar(b, tree)){
+        printf("\nb is similar to tree\n");
+    }else{
+        printf("\nb is not similar to tree\n");
+    }
 
     InOrder3(tree);
     printf("\n");
