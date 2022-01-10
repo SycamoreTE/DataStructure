@@ -213,7 +213,7 @@ int BtHeight(BiTree T){
         if(p->rchild){
             EnQueue(&Q, p->rchild);
         }
-        if(last == Q.front){
+        if(Q.front == last){
             last = Q.rear;
             level++;
         }
@@ -452,7 +452,31 @@ void PreToPost(int pre[], int post[], int l1, int h1, int l2, int h2){
 }
 
 /**16 将二叉树的叶节点用单链表从左至右链接起来，右孩子节点链接下一个叶子节点**/
+BiTNode *head, *pre1 = NULL;
+BiTNode* InOrder3(BiTree bt){
+    if(bt){
+        InOrder3(bt->lchild);
+        if(bt->lchild == NULL && bt->rchild == NULL){
+            if(pre1 == NULL){
+                head = bt;
+                pre1 = bt;
+            }else{
+                pre1->rchild = bt;
+                pre1 = bt;
+            }
+        }
+        InOrder3(bt->rchild);
+        pre->rchild = NULL;
+    }
+    return head;
+}
 
+void printleafNode(BiTNode *p){
+    if(p){
+        printf("%d->", p->data);
+        p = p->rchild;
+    }
+}
 
 void CreateTree(BiTree *T){
     ElemType data;
@@ -540,6 +564,10 @@ int main(){
     printf("PreOrder the 4th data : %d\n", PreNode_k(tree, 4));
     Delete_x(tree, 4);
     PreOrder(tree);
+
+    InOrder3(tree);
+    printf("\n");
+    printleafNode(head);
     // ThreadTree T1;
     // CreateThreadTree(&T1);
     // CreateInThread(T1);
