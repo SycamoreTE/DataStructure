@@ -27,6 +27,20 @@ void BtreeToExp(BiTree tree, int deep){
     }
 }
 
+void BiTreeToExpression(BiTree T, int depth){
+    if(T){
+        if(depth > 1){
+            printf("(");
+        }
+        BiTreeToExpression(T->left, depth+1);
+        printf("%c", T->data);
+        BiTreeToExpression(T->right, depth+1);
+        if(depth > 1){
+            printf(")");
+        }
+    }
+}
+
 void InitTree(BiTree *T){
     (*T) = (BtNode*)malloc(sizeof(BtNode));
     (*T)->data = '+';
@@ -59,4 +73,5 @@ int main(){
     BiTree tree;
     InitTree(&tree);
     BtreeToExp(tree, 1);
+    BiTreeToExpression(tree, 1);
 }

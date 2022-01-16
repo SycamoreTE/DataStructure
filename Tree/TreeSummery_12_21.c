@@ -491,6 +491,30 @@ bool Similar(BiTree T1, BiTree T2){
     }
 }
 
+/**19 求树的带权路径长度**/
+void ComputeWPL(BiTree T, int *WPL, int depth){
+    if(T){
+        *WPL += T->data * depth;
+        ComputeWPL(T->lchild, WPL, depth+1);
+        ComputeWPL(T->rchild, WPL, depth+1); 
+    }
+}
+
+/**20 将二叉树转换成对应的中缀表达式**/
+void BiTreeToExpression(BiTree T, int depth){
+    if(T){
+        if(depth > 1){
+            printf("(");
+        }
+        BiTreeToExpression(T->lchild, depth+1);
+        printf("%c", T->data);
+        BiTreeToExpression(T->rchild, depth+1);
+        if(depth > 1){
+            printf(")");
+        }
+    }
+}
+
 void CreateTree(BiTree *T){
     ElemType data;
     printf("please input root node : ");
