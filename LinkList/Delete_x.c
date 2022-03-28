@@ -13,7 +13,7 @@ typedef struct LNode{
 
 void Delete_x1(LinkList *L, int x){
     
-    LNode *p = (LNode*)malloc(sizeof(LNode));
+    LNode *p;
     if(L == NULL){
         return;
     }
@@ -75,7 +75,7 @@ int main(){
     LinkList *L;
     L = List_TailInsert();
     printList(L);
-    Delete_x2(L, 6);
+    Delete_x1(L, 6);
     printList(L);
     return 0;
 }

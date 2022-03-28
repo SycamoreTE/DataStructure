@@ -11,7 +11,7 @@ typedef struct LNode{
   struct LNode *next;
 }LNode, *LinkList;
 
-void Delete_min(LinkList* L){
+void Delete_min(LinkList L){
     LNode *pre = L, *p = L->next, *minpre = pre, *minp = p;
     while (p!=NULL) {
         if(p->data < minp->data){
@@ -44,7 +44,7 @@ LinkList List_TailInsert(){
     return L;
 }
 
-void printList(LinkList *L){
+void printList(LinkList L){
     LNode *p;
     p = L->next;
     while(p != NULL){
@@ -56,8 +56,8 @@ void printList(LinkList *L){
 
 int main(){
     LinkList L = List_TailInsert();
-    printList(&L);
-    Delete_min(&L);
-    printList(&L);
+    printList(L);
+    Delete_min(L);
+    printList(L);
     return 0;
 }

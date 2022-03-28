@@ -13,25 +13,28 @@ bool Find_x(SqList *L, int x){
     if(L->length == 0){
         return false;
     }
-    int pos = MAX_SIZE, temp = 0,mid = 0;
-    int low = 0, high = L->length - 1;
+    int low = 0, high = L->length - 1, mid;
     while(low < high){
         mid = (low + high)/2;
-        if(L->data[mid]==x){
-            pos = mid;
-            break;
+        if(L->data[mid] == x){
+            int temp = L->data[mid];
+            L->data[mid] = L->data[mid+1];
+            L->data[mid+1] = temp;
+            return true;
         }else if(L->data[mid] < x){
             low = mid + 1;
         }else{
             high = mid - 1;
         }
     }
-    if(pos < 0 || pos > L->length - 1){
-        return false;
+    if(low >= high){
+        int i;
+        for(i = L->length - 1; i > high; i--){
+            L->data[i+1] = L->data[i];
+        }
+        L->data[i+1] = x;
+        L->length++;
     }
-    temp = L->data[pos];
-    L->data[pos] = L->data[pos + 1];
-    L->data[pos + 1] = temp;
     return true;
 }
 

@@ -266,15 +266,16 @@ LinkList DisCreate_C(LinkList A)
 
 /** 12 在递增有序的线性表中，去除数值相同的元素，使表中元素不重复**/
 void Delete_Same(LinkList L){
-    LNode *pre = L->next, *p = pre->next, *r;
+    LNode *p = L->next, *q;
+    if(p == NULL){
+        return;
+    }
     while(p){
-        r = p->next;
-        if(pre->data == p->data){
-            pre->next = p->next;
-            free(p);
-            p = r;
+        q = p->next;
+        if(p->data == q->data){
+            p->next = q->next;
+            free(q);
         }else{
-            pre = p;
             p = p->next;
         }
     }

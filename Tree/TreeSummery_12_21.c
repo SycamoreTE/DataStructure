@@ -340,17 +340,18 @@ int PreNode_k(BiTree T, int k){
 }
 
 /**11 删去以x为根的子树，并释放相应的空间**/
-void Delete_Node(BiTNode *p){
+void DeleteNode(BiTNode *p){
     if(p){
-        Delete_Node(p->lchild);
-        Delete_Node(p->rchild);
+        DeleteNode(p->lchild);
+        DeleteNode(p->rchild);
         free(p);
     }
 }
 
 void Delete_x(BiTree T, int x){
     if(T->data == x){
-        Delete_Node(T);
+        DeleteNode(T);
+        T = NULL;
         return;
     }
     SqQueue Q;
@@ -361,7 +362,7 @@ void Delete_x(BiTree T, int x){
         DeQueue(&Q, &p);
         if(p->lchild){
             if(p->lchild->data == x){
-                Delete_Node(p->lchild);
+                DeleteNode(p->lchild);
                 p->lchild = NULL;
             }else{
                 EnQueue(&Q, p->lchild);
@@ -369,7 +370,7 @@ void Delete_x(BiTree T, int x){
         }
         if(p->rchild){
             if(p->rchild->data == x){
-                Delete_Node(p->rchild);
+                DeleteNode(p->rchild);
                 p->rchild = NULL;
             }else{
                 EnQueue(&Q, p->rchild);
@@ -379,8 +380,8 @@ void Delete_x(BiTree T, int x){
 }
 
 /**12 打印值为x的结点的所有祖先**/
-bool Ancestors(BiTree T, SqQueue *Q, ElemType x){
-    if(!T){
+bool Ancestors(BiTree T, SqQueue *Q, int x){
+    if(T == NULL){
         return false;
     }
     if(T->data == x){
@@ -396,8 +397,8 @@ bool Ancestors(BiTree T, SqQueue *Q, ElemType x){
 void findAncestors(BiTree T, int x){
     SqQueue Q;
     InitQueue(&Q);
-    Ancestors(T, &Q, x);
     BiTNode *p;
+    Ancestors(T, &Q, x);
     while(!QueueEmpty(Q)){
         DeQueue(&Q, &p);
         visit(p);
@@ -439,6 +440,39 @@ int BtWidth(BiTree T, int k, int *MAX){
     BtWidth(T->lchild, k+1, MAX);
     BtWidth(T->rchild, k+1, MAX);
     return *MAX;
+}
+
+int BtWidth2(BiTree T){
+    if(T == NULL){
+        return 0;
+    }
+    SqQueue Q;
+    InitQueue(&Q);
+    int width[MaxSize] = {0};
+    int level = 0, last = 0;
+    BiTNode *p = T;
+    EnQueue(&Q, p);
+    while(!QueueEmpty(Q)){
+        DeQueue(&Q, &p);
+        width[level]++;
+        if(p->lchild){
+            EnQueue(&Q, p->lchild);
+        }
+        if(p->rchild){
+            EnQueue(&Q, p->rchild);
+        }
+        if(last == Q.front){
+            last = Q.rear;
+            level++;
+        }
+    }
+    int max = width[0];
+    for(int i = 0; i < MaxSize; ++i){
+        if(max < width[i]){
+            max = width[i];
+        }
+    }
+    return max;
 }
 
 /**15 满二叉树，已知其先序序列，求其后序序列**/
@@ -570,7 +604,7 @@ int main(){
     int in[] = {4,2,6,5,1,7,3,8};
     BiTree b = PreInCreate(pre, in, 0, 7, 0, 7);
     BtWidth(b, 0, &MAX);
-    printf("\nBtWidth: %d", MAX);
+    printf("\nBtWidth: %d, %d\n", MAX, BtWidth2(b));
     printf("InOrder----\n");
     InOrder(b);
     printf("\nfindAncestors----\n");
