@@ -427,6 +427,39 @@ int BST_Insert(BiTree T, ElemType k){
     }
 }
 
+BiTNode* CreateTreeNode(int val){
+    BiTNode *root = (BiTNode*)malloc(sizeof(BiTNode));
+    root->data = val;
+    root->lchild = root->rchild = NULL;
+    return root;
+}
+
+//二叉排序树插入操作非递归算法
+int BST_Insert2(BiTree T, ElemType k){
+    BiTNode *p = T;
+    BiTNode *parent = NULL;
+    if(T == NULL){
+        T = CreateTreeNode(k);
+        return 1;
+    }
+    while(p!= NULL){
+        parent = p;
+        if(p->data < k){
+            p = p->rchild;
+        }else if(p->data > k){
+            p = p->lchild;
+        }else{
+            return 0;
+        }
+    }
+    if(parent->data < k){
+        parent->rchild = CreateTreeNode(k);
+    }else{
+        parent->lchild = CreateTreeNode(k);
+    }
+    return 1;
+}
+
 //创建排序树
 BiTree CreateBST(ElemType data[], int length){
     BiTree T = NULL;

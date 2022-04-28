@@ -304,12 +304,8 @@ void MergeDescendList(LinkList L1, LinkList L2)
             q = r;
         }
     }
-    while (p)
-    {
-        r = p->next;
-        p->next = L1->next;
-        L1->next = p;
-        p = r;
+    if(p){
+        q = p;
     }
     while (q)
     {
@@ -318,6 +314,7 @@ void MergeDescendList(LinkList L1, LinkList L2)
         L1->next = q;
         q = r;
     }
+    free(L2);
 }
 
 /** 14 从升序的单链表A B中找出共同的元素生成单链表C**/

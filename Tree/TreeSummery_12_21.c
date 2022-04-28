@@ -137,6 +137,24 @@ void InThread(ThreadTree T){
     }
 }
 
+void PreThread(ThreadTree T){
+    if(T != NULL){
+        visitThreadNode(T);
+        if(T->ltag == 0){
+            PreThread(T->lchild);
+        }
+        PreThread(T->rchild);
+    }
+}
+
+void PostThread(ThreadTree T){
+    if(T!= NULL){
+        PostThread(T->lchild);
+        PostThread(T->rchild);
+        visitThreadNode(T);
+    }
+}
+
 void CreateInThread(ThreadTree T){
     if(T){
         InThread(T);
@@ -161,12 +179,33 @@ ThreadNode *NextNode(ThreadNode *p){
     }
 }
 
+ThreadNode *LastNode(ThreadNode *p){
+    while(p->rtag == 0){
+        p = p->rchild;
+    }
+    return p;
+}
+
+ThreadNode *PreNode(ThreadNode *p){
+    if(p->ltag == 1){
+        return p->lchild;
+    }else{
+        return LastNode(p->lchild);
+    }
+}
+
 void visit2(ThreadNode *p){
     printf("[%d,%d,%d]->",p->ltag,p->data,p->rtag);
 }
 
 void InThreadOrder(ThreadNode *T){
     for(ThreadNode *p = FisrtNode(T); p!= NULL; p = NextNode(p)){
+        visit2(p);
+    }
+}
+
+void RevInreadOrder(ThreadNode *T){
+    for(ThreadNode *p = LastNode(T); p!=NULL; p = PreNode(p)){
         visit2(p);
     }
 }
